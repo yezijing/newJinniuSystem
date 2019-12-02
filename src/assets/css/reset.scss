@@ -1,0 +1,79 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+body {
+  background-color: #e3e3e3;
+  font-size: 14px;
+  color: #333333;
+  margin: 0px;
+  padding: 0px;
+  font-family: Microsoft YaHei, Helvetica Neue, Helvetica, PingFang SC,
+    Hiragino Sans GB, SimSun, sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+li { list-style: none; }
+a {
+  text-decoration: none;
+  color: #56a9ff;
+}
+h1, h2, h3, h4, p, span, input, textarea {
+  font-family: Microsoft YaHei, Helvetica Neue, Helvetica, PingFang SC,
+    Hiragino Sans GB, SimSun, sans-serif;
+}
+/*浮动*/
+.fl { float: left; }
+.fr { float: right; }
+
+/*清除浮动*/
+.clearfix:after {
+    height: 0;
+    content: "";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    font-size: 0;
+}
+.clearfix { zoom: 1; }
+* html .clearfix { zoom: 1; }
+
+#app {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  width: 100%;
+  left: 0;
+  #loyout{
+    height: 100%;
+    .el-container{
+      height: 100%;
+    }
+  }
+}
+
+fieldset {
+  border: 1px solid #ccc;
+  legend {
+    color: #000;
+    font-size: 16px;
+    padding: 0 8px;
+    margin-left: 30px;
+    font-weight: bold;
+    font-family: "微软雅黑";
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.2s ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+textarea {
+  resize: none;
+}

@@ -1,0 +1,213 @@
+.el-table {
+    .ellipsis {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-align: left;
+      overflow: hidden;
+    }
+    .title {
+      color: #1890ff;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    th {
+      background: #1890ff;
+      color: #fff;
+      font-weight: normal;
+      font-size: 13px;
+    }
+    th.is-leaf {
+      border-color: #ddd;
+    }
+    td {
+      border-right: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      .cell {
+        word-wrap: break-word;
+        white-space: pre-line;
+        .el-button {
+          font-size: 13px;
+          border: none;
+          background: transparent;
+          color: #1890ff;
+          padding: 5px 2px;
+        }
+        .btn-red{color: #f00;}
+      }
+    }
+}
+.el-table--border,
+.el-table--group {
+  border: 1px solid #ddd;
+}
+#elmain {
+    margin: 15px;
+    padding: 15px;
+    background: #fff;
+    .navtitle {
+      border-bottom: 1px solid #ddd;
+      span{
+        position: relative;
+        padding-bottom: 10px;
+        color: #409EFF;
+        font-size: 14px;
+        display: inline-block;
+        &::after{
+          content: "";
+          background: #409EFF;
+          height: 1px;
+          width: 100%;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+        }
+      }
+    }
+}
+
+.el-dialog__header {
+  background: #f2f2f2;
+  padding: 6px 15px;
+  // text-align: center;
+  border-bottom: 1px solid #ccc;
+  .el-dialog__title {
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 34px;
+    font-family: "Microsoft YaHei";
+  }
+  .el-dialog__headerbtn {
+    top: 14px;
+    right: 15px;
+    .el-dialog__close {
+      color: #333;
+      font-size: 20px;
+    }
+  }
+}
+.el-dialog__footer {
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+}
+.el-step__title {
+  font-size: 14px;
+  line-height: 32px;
+}
+.input-remark{
+  .el-input{
+    width: auto;
+    .el-input__inner{
+      width: 96px;
+      text-align: center;
+    }
+  }
+}
+.toolbar{
+  margin: 15px 0;
+  .ww1{
+    .el-input__inner{width: 100px;}
+  }
+  .ww2{
+    .el-input__inner{width: 130px;}
+  }
+  .toolbtns{
+    display: flex;
+    justify-content: space-between;
+    .viewbox{
+      width: 120px;
+      .el-input__inner{
+        background: #eee;
+      }
+    }
+  }
+}
+
+.select-block .el-select{display: block;width: 100%;}
+.flexbox{
+  display: flex;
+  .flexitem{
+    flex: 1;
+  }
+  .flexitem+.flexitem{margin-left: 20px;}
+}
+
+.el-pagination{margin-top: 20px;text-align: right;}
+.el-date-editor.el-input, .el-date-editor.el-input__inner{width: 100%;}
+.el-input-group__append, .el-input-group__prepend{padding: 0 14px;}
+.statelist{
+  a{
+    display: block;
+    color: #555;
+    font-size: 14px;
+    line-height: 2;
+    background-repeat: no-repeat;
+    background-position: 96% center;
+    background-size: 20px auto;
+    padding: 0 5px;
+    border-radius: 3px;
+    &:hover{
+      color: #1890ff;
+    }
+  }
+  .on{
+    color: #1890ff;
+    background-color: #eee;
+  }
+  a+a{
+    margin-top: 5px;
+  }
+}
+
+.addflexbox {
+  display: flex;
+  .jiabtn {
+    margin-left: 10px;
+    height: 36px;
+    line-height: 36px;
+    position: relative;
+    display: inline-block;
+    .icon {
+      color: #1890ff;
+      font-size: 24px;
+      display: inline-block;
+      height: 36px;
+      line-height: 36px;
+      cursor: pointer;
+    }
+    .awrap {
+      position: absolute;
+      left: 44px;
+      top: 0;
+      border: 1px solid #ccc;
+      background: #fff;
+      width: 250px;
+      padding: 5px 10px 10px;
+      z-index: 99;
+      p {
+        color: #666;
+      }
+      .el-input__inner {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      .buttons {
+        display: flex;
+        justify-content: center;
+        .el-button {
+          padding: 8px 18px;
+        }
+      }
+    }
+  }
+}
+
+.select-table {
+  .el-input__inner{
+    border:none;
+    color: #1890ff;
+    padding: 0;
+  }
+  .el-input__suffix{display: none;}
+  .el-input--suffix .el-input__inner{padding-right: 0;}
+}
