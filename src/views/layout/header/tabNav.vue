@@ -20,7 +20,7 @@
           closable
           @tab-click="tabClick"
           v-if="$store.getters.tabnavBox.length"
-          @tab-remove="removeTab"
+          @tab-remove="tabRemove"
         >
           <el-tab-pane
             :key="item.title"
@@ -42,7 +42,15 @@ export default {
     return {};
   },
   methods: {
-    tabClick() {},
+    tabClick(targetName) {
+      console.log(targetName.name);
+      this.$router.push({ path: targetName.name });
+    },
+    tabRemove(targetName) {
+      if (targetName == "/") {
+        return;
+      }
+    },
     openMenu(item, e, index) {
       if (index === 0) {
         return false;
