@@ -20,7 +20,7 @@
     "charenc": "^0.0.2",
     "crypt": "^0.0.2",
     "echarts": "^4.2.1",
-    "element-ui": "^2.4.6",
+    "element-ui": "^2.13.0",
     "figlet": "^1.2.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",

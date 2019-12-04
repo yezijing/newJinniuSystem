@@ -1,7 +1,7 @@
 <template>
   <div id="login" :style="backgroundDiv">
     <div class="loginbox">
-      <p class="title" :style="btnbackgroundDiv">联智ESM管理系统</p>
+      <p class="title" :style="btnbackgroundDiv">金牛目督办平台</p>
       <div class="content">
         <el-form :model="loginForm" status-icon label-width="100px" class="demo-ruleForm">
           <el-form-item label="用户名：" prop="logname">
@@ -62,7 +62,6 @@ export default {
   },
   methods: {
     submitForm() {
-      console.log(this.loginForm);
       let {
         loginForm: { logname, password, yzm }
       } = this;
@@ -76,18 +75,14 @@ export default {
       } else {
         if (this.loginForm.yzm.toUpperCase() == this.checkCode) {
           let upara = { logname: logname, password: md5(password) };
-          userLogin(upara, ({ data: { code, msg, obj } }) => {
-            let { updatetime } = obj;
-            this.$store.dispatch("setUserData", JSON.stringify(obj));
-            this.$store.dispatch("setToken", logname).then(() => {
-              this.$message({
-                message: "登录成功！",
-                type: "success"
-              });
-              setTimeout(() => {
-                this.$router.push({ path: "/" });
-              }, 1000);
+          this.$store.dispatch("setToken", logname).then(() => {
+            this.$message({
+              message: "登录成功！",
+              type: "success"
             });
+            setTimeout(() => {
+              this.$router.push({ path: "/" });
+            }, 1000);
           });
         } else {
           this.$message({
@@ -145,7 +140,44 @@ export default {
       //验证码的长度
       var codeLength = 4;
       //随机数
-      var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+      var random = new Array(
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z"
+      );
       for (var i = 0; i < codeLength; i++) {
         //取得随机数的索引（0~35）
         var index = Math.floor(Math.random() * 36);
@@ -155,21 +187,8 @@ export default {
       //把code值赋给验证码
       this.checkCode = this.code;
     }
-    // message() {
-    //   const h = this.$createElement;
-    //   this.$notify({
-    //     title: "账号密码",
-    //     message: h(
-    //       "i",
-    //       { style: "color: teal" },
-    //       "用于测试，账号密码可以随意填写"
-    //     ),
-    //     duration: 2000
-    //   });
-    // }
   },
   mounted() {
-    // this.message();
     this.createCode();
   }
 };

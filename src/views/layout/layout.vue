@@ -37,7 +37,7 @@ export default {
     };
   },
   created() {
-    document.getElementsByTagName("title")[0].innerHTML = "联智ESM管理系统";
+    document.getElementsByTagName("title")[0].innerHTML = "金牛目督办平台";
     this.$router.push("/index");
   }
 };

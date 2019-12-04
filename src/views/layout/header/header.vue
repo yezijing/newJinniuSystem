@@ -2,8 +2,11 @@
   <div class="headwrap">
     <el-header id="header">
       <p class="htitle">
-        <!-- <img class="logo" :src="logoimg" />  -->
-        企业战略管理平台
+        <span @click="collapse" class="openbtn">
+          <i v-if="$store.getters.logoShow" class="fa fa-indent"></i>
+          <i v-else class="fa fa-outdent"></i>
+        </span>
+        <a class="refresh" @click="reloadPage" href="javascript:;"><i class="el-icon-refresh-right"></i></a>
       </p>
       <ul class="personal">
         <li class="fullScreen" @click="fullScreen">
@@ -52,6 +55,13 @@ export default {
   },
   created() {},
   methods: {
+    // 刷新页面
+    reloadPage(){
+      location.reload();
+    },
+    collapse() {
+      this.$store.dispatch("collapse");
+    },
     fullScreen() {
       if (this.isfullScreen) {
         var docElm = document.documentElement;
@@ -80,12 +90,12 @@ export default {
     },
     handleCommand(command) {
       if (command === "logout") {
-        userLogout("", data => {
-          sessionStorage.removeItem("token");
-          location.reload();
-        });
-        // sessionStorage.removeItem("token");
-        // location.reload();
+        // userLogout("", data => {
+        //   sessionStorage.removeItem("token");
+        //   location.reload();
+        // });
+        sessionStorage.removeItem("token");
+        location.reload();
       }
       if (command === "a") {
       }
@@ -122,11 +132,17 @@ export default {
     .htitle {
       color: #333;
       font-size: 20px;
-      .logo {
-        height: 36px;
-        vertical-align: middle;
-        margin-right: 5px;
-        width: auto;
+      .openbtn{
+        display: inline-block;
+        cursor: pointer;
+      }
+      .refresh{
+        color: #333;
+        display: inline-block;
+        margin-left: 20px;
+        i{
+          font-weight: bold;
+        }
       }
     }
     .personal {

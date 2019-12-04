@@ -2,10 +2,8 @@
   <div>
     <el-aside id="asideNav">
       <div class="hideAside">
-        <p class="tt"><img class="logo" :src="logoimg" />联智科技</p>
-        <span @click="collapse">
-          <i class="fa fa-indent fa-lg"></i>
-        </span>
+        <p class="tt" v-if="$store.getters.logoShow">目督办</p>
+        <p class="tt" v-else>金牛区目督办系统</p>
       </div>
       <el-menu
         :default-active="$route.path"
@@ -44,7 +42,6 @@ export default {
   name: "asideNav",
   data() {
     return {
-      logoimg: "./static/images/logo.png",
     };
   },
   components: {
@@ -97,21 +94,12 @@ export default {
   flex-direction: column;
   overflow: hidden;
   .hideAside {
-    padding: 0 15px;
+    padding: 0 6px;
     margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     .tt{
-      color: #fff;font-size: 16px;
-      font-weight: bold;
+      color: rgba(255,255,255,.8);font-size: 16px;
       height: 24px;
       line-height: 24px;
-      img{
-        height: 24px;
-        margin-right: 5px;
-        vertical-align: middle;
-      }
     }
     span {
       display: inline-block;
@@ -128,7 +116,7 @@ export default {
     min-width: 0 !important;
   }
   .el-menu-vertical:not(.el-menu--collapse) {
-    width: 240px;
+    width: 220px;
     height: 100%;
     overflow-y: scroll;
   }
@@ -148,11 +136,11 @@ export default {
       font-size: 16px;
     }
     .el-menu-item {
-      border-bottom: 1px solid #454648;
+      border-bottom: 1px solid #1d1b1d;
       background-color: #141314 !important;
       &:hover {
-        color: #ffffff !important;
-        background-color: #f36306 !important;
+        color: #32aa9f !important;
+        background-color: #141314 !important;
       }
       i {
         display: inline-block;
@@ -161,7 +149,8 @@ export default {
       }
     }
     .el-menu-item.is-active {
-      background-color: #f36306 !important;
+      background-color: #32aa9f !important;
+      &:hover{color: #fff !important;}
     }
     .is-opened > .el-submenu__title > .el-icon-arrow-down {
       color: #ffffff;
