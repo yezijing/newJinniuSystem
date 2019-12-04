@@ -19,7 +19,7 @@ const store = new Vuex.Store({
     mutations: {
         setToken(state, token) {
             state.token = token
-            state.perssionData = ['main', 'mainindex', 'basicset', 'organ', 'departmentmanagement', 'user', 'busstatus', 'bussort', 'role', 'manymenu', 'ponelevel', 'ponemenu', 'ptwomenu', 'pthreemenu', 'businessall', 'cluemanage', 'projectall', 'projectmanage']
+            state.perssionData = ['main', 'mainindex', 'basicset', 'organ', 'departmentmanagement', 'user', 'role', 'manymenu', 'ponelevel', 'ponemenu', 'ptwomenu', 'pthreemenu']
             sessionStorage.setItem('token', token)
         },
         setUserData(state, obj) {

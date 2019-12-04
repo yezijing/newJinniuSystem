@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="tabnavBox">
-      <!-- <transition-group name="list" tag="ul">
+      <ul>
         <li
           v-for="(item, index) in $store.getters.tabnavBox"
           @contextmenu.prevent="openMenu(item,$event,index)"
@@ -12,22 +12,25 @@
           <router-link :to="item.path">{{ item.title }}</router-link>
           <i @click="removeTab(item)" class="el-icon-close" v-if="index !== 0"></i>
         </li>
-      </transition-group> -->
-      <el-tabs
-        v-model="tabsValue"
-        type="card"
-        closable
-        @tab-remove="removeTab"
-        @tab-click="tabclick"
-      >
-        <el-tab-pane
-          v-for="(item, index) in $store.getters.tabnavBox"
-          @contextmenu.prevent="openMenu(item,$event,index)"
-          :key="item.title"
-          :label="item.title"
-          :name="item.title"
-        >{{item.title}}</el-tab-pane>
-      </el-tabs>
+      </ul>
+      <div>
+        <el-tabs
+          v-model="activeIndex"
+          type="border-card"
+          closable
+          @tab-click="tabClick"
+          v-if="$store.getters.tabnavBox.length"
+          @tab-remove="removeTab"
+        >
+          <el-tab-pane
+            :key="item.title"
+            v-for="(item, index) in $store.getters.tabnavBox"
+            @contextmenu.prevent="openMenu(item,$event,index)"
+            :label="item.title"
+            :name="item.path"
+          ></el-tab-pane>
+        </el-tabs>
+      </div>
     </div>
   </div>
 </template>
@@ -36,50 +39,32 @@
 export default {
   name: "tabNav",
   data() {
-    return {
-      tabsValue:"",
-      tabs:[],
-    };
-  },
-  created(){
-    this.tabs = $store.getters.tabnavBox;
-    console.log(this.tabs)
+    return {};
   },
   methods: {
-    tabclick(val) {
-      console.log(val);
-      this.$router.push(val.path);
-    },
+    tabClick() {},
     openMenu(item, e, index) {
       if (index === 0) {
         return false;
       }
       this.$store.dispatch("openMenu", item);
     },
-    removeTab(targetName) {
-      console.log(targetName)
-      let tabs =this.tabs;
-      let activeName = this.tabsValue;
-      if (activeName === targetName) {
-        tabs.forEach((tab, index) => {
-          if (tab.title === targetName) {
-            let nextTab = tab[index + 1] || tabs[index - 1];
-            if (nextTab) {
-              activeName = nextTab.title;
-            }
-          }
-        });
-      }
-      this.tabsValue = activeName;
-      this.tabs = tabs.filter(tab => tab.title !== targetName);
+    removeTab(tabItem) {
+      this.$store.dispatch("removeTab", {
+        tabItem,
+        fullPath: this.$route.fullPath,
+        router: this.$router
+      });
     },
-    // removeTab(tabItem) {
-    //   this.$store.dispatch("removeTab", {
-    //     tabItem,
-    //     fullPath: this.$route.fullPath,
-    //     router: this.$router
-    //   });
-    // }
+    removeOtherTab(tabItem) {
+      this.$store.dispatch("removeOtherTab", { tabItem, router: this.$router });
+    },
+    removeAllTab() {
+      this.$store.dispatch("removeOtherTab", {
+        all: true,
+        router: this.$router
+      });
+    }
   },
   watch: {}
 };
@@ -123,11 +108,9 @@ $leftright: ($left, $right);
     0 0 3px 0 rgba(0, 0, 0, 0.04);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
   ul {
-    display: flex;
-    justify-content: flex-start;
     padding-left: 20px;
-    flex-wrap: nowrap;
     overflow-x: auto;
+    height: 40px;
     li {
       height: 36px;
       line-height: 36px;
@@ -135,6 +118,7 @@ $leftright: ($left, $right);
       border-right: 1px solid #f6f6f6;
       overflow: hidden;
       position: relative;
+      display: inline-block;
       &:not(:first-child) {
         padding-right: 10px;
         min-width: 80px;

@@ -11,14 +11,9 @@ const organManagement = () => import('@/views/setting/organmanagement')
 const userManagement = () => import('@/views/setting/usermanagement')
 const department = () => import('@/views/setting/department')
 const roleManagement = () => import('@/views/setting/rolemanagement')
-const businessState = () => import('@/views/setting/busStatePage')
-const businessSort = () => import('@/views/setting/busSortPage')
 const oneMenu = () => import('@/views/manymenu/onemenu')
 const twoMenu = () => import('@/views/manymenu/twomenu')
 const threeMenu = () => import('@/views/manymenu/threemenu')
-const clueManagement = () => import('@/views/business/cluePage')
-const businessManagement = () => import('@/views/business/businessPage')
-const projectManagement = () => import('@/views/project/projectManagePage')
 
 Vue.use(Router)
 let defaultRouter = [
@@ -48,7 +43,7 @@ let addRouter = [
     {
         path: '/index',
         iconCls: 'fa fa-home',
-        name: '主页',
+        name: '个人中心',
         component: Layout,
         alone: true,
         alias: 'main',
@@ -56,7 +51,7 @@ let addRouter = [
             {
                 path: '/index',
                 iconCls: 'fa fa-home',
-                name: '主页',
+                name: '个人中心',
                 component: HomeMain,
                 alias: 'mainindex',
                 children: []
@@ -92,20 +87,6 @@ let addRouter = [
                 children: []
             },
             {
-                path: '/businessState',
-                name: '商机状态',
-                component: businessState,
-                alias: 'busstatus',
-                children: []
-            },
-            {
-                path: '/businessSort',
-                name: '商机分类',
-                component: businessSort,
-                alias: 'bussort',
-                children: []
-            },
-            {
                 path: '/rolemanagement',
                 name: '权限管理',
                 component: roleManagement,
@@ -116,50 +97,11 @@ let addRouter = [
     },
     {
         path: '/',
-        iconCls: 'fa fa-money',
-        name: '商机管理',
-        component: Layout,
-        alias: 'businessall',
-        children: [
-            {
-                path: '/clue',
-                name: '线索管理',
-                component: clueManagement,
-                alias: 'cluemanage',
-                children: []
-            }
-        ]
-    },
-    {
-        path: '/',
-        iconCls: 'fa fa-cubes',
-        name: '项目管理',
-        component: Layout,
-        alias: 'projectall',
-        children: [
-            {
-                path: '/business',
-                name: '商务管理',
-                component: businessManagement,
-                alias: 'businessmanage',
-                children: []
-            },
-            {
-                path: '/project',
-                name: '项目合作',
-                component: projectManagement,
-                alias: 'projectmanage',
-                children: []
-            }
-        ]
-    },
-    {
-        path: '/',
         iconCls: 'fa fa-crosshairs',
         name: '多级菜单',
         component: Layout,
         alias: 'manymenu',
-        hidden: true,
+        hidden: false,
         children: [
             {
                 path: '/',
@@ -198,7 +140,7 @@ let allAddRouter = [
     {
         path: '/index',
         iconCls: 'fa fa-home',
-        name: '主页',
+        name: '个人中心',
         component: Layout,
         alone: true,
         alias: 'main',
@@ -206,7 +148,7 @@ let allAddRouter = [
             {
                 path: '/index',
                 iconCls: 'fa fa-home',
-                name: '主页',
+                name: '个人中心',
                 component: HomeMain,
                 alias: 'mainindex',
                 children: []
@@ -242,63 +184,10 @@ let allAddRouter = [
                 children: []
             },
             {
-                path: '/businessState',
-                name: '商机状态',
-                component: businessState,
-                alias: 'busstatus',
-                children: []
-            },
-            {
-                path: '/businessSort',
-                name: '商机分类',
-                component: businessSort,
-                alias: 'bussort',
-                children: []
-            },
-            {
                 path: '/rolemanagement',
                 name: '权限管理',
                 component: roleManagement,
                 alias: 'role',
-                children: []
-            }
-        ]
-    },
-    {
-        path: '/',
-        iconCls: 'fa fa-money',
-        name: '商机管理',
-        component: Layout,
-        alias: 'businessall',
-        children: [
-            {
-                path: '/clue',
-                name: '线索管理',
-                component: clueManagement,
-                alias: 'cluemanage',
-                children: []
-            }
-        ]
-    },
-    {
-        path: '/',
-        iconCls: 'fa fa-cubes',
-        name: '项目管理',
-        component: Layout,
-        alias: 'projectall',
-        children: [
-            {
-                path: '/business',
-                name: '商务管理',
-                component: businessManagement,
-                alias: 'businessmanage',
-                children: []
-            },
-            {
-                path: '/project',
-                name: '项目合作',
-                component: projectManagement,
-                alias: 'projectmanage',
                 children: []
             }
         ]
