@@ -21,18 +21,21 @@
       <div class="tab-next">
         <i class="el-icon-arrow-right"></i>
       </div>
-      <ul
-        v-show="this.rightMenuShow"
-        :style="{left:this.left+'px',top:this.top+'px'}"
-        class="menuBox"
-      >
-        <li @click="removeTab($store.getters.rightNav)">
-          <i class="fa fa-remove"></i>
-          {{ $t('rightMenu.close') }}
-        </li>
-        <li @click="removeOtherTab($store.getters.rightNav)">{{ $t('rightMenu.closeOther') }}</li>
-        <li @click="removeAllTab">{{ $t('rightMenu.closeAll') }}</li>
-      </ul>
+      <div class="btnsbox">
+        <a href="javascript:;" @click="removeAllTab">关闭</a>
+        <!-- <ul
+          v-show="this.rightMenuShow"
+          :style="{left:this.left+'px',top:this.top+'px'}"
+          class="menuBox"
+        >
+          <li @click="removeTab($store.getters.rightNav)">
+            <i class="fa fa-remove"></i>
+            {{ $t('rightMenu.close') }}
+          </li>
+          <li @click="removeOtherTab($store.getters.rightNav)">{{ $t('rightMenu.closeOther') }}</li>
+          <li @click="removeAllTab">{{ $t('rightMenu.closeAll') }}</li>
+        </ul> -->
+      </div>
     </div>
   </div>
 </template>
@@ -44,7 +47,7 @@ export default {
   name: "tabNav",
   data() {
     return {
-      rightMenuShow: false,
+      rightMenuShow: true,
       left: 0,
       top: 0
     };
@@ -80,9 +83,9 @@ export default {
         prevEl: ".tab-prev"
       },
       slidesPerView: "auto",
-      observer:true,
-      observeParents:true,
-      slidesPerGroup : 2,
+      observer: true,
+      observeParents: true,
+      slidesPerGroup: 2
     });
   },
   watch: {}
@@ -120,7 +123,7 @@ $leftright: ($left, $right);
 .tabnavBox {
   width: 100%;
   position: relative;
-  padding: 0 32px;
+  padding: 0 70px 0 32px;
   overflow: hidden;
   border-top: 1px solid #f6f6f6;
   border-bottom: 1px solid #d8dce5;
@@ -135,9 +138,23 @@ $leftright: ($left, $right);
     position: relative;
     z-index: 9;
   }
-  .tab-next {
+  .btnsbox{
     position: absolute;
     right: 0;
+    top: 0;
+    z-index: 9;
+    a{
+      display: block;
+      height: 36px;
+      line-height: 36px;
+      color: #999;font-size: 14px;
+      width: 40px;
+      text-align: center;
+    }
+  }
+  .tab-next {
+    position: absolute;
+    right: 40px;
     top: 0;
     line-height: 36px;
     height: 36px;
