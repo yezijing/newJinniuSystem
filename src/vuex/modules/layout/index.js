@@ -12,7 +12,7 @@ export default {
     rightNav: {},
     tabnavBox: [
       {
-        title: '主页',
+        title: '个人中心',
         path: '/index'
       }
     ]
@@ -45,7 +45,7 @@ export default {
     },
     removeOtherTab(state, arg) {
       state.tabnavBox = [{
-        title: '主页',
+        title: '个人中心',
         path: '/index'
       }]
       if (arg.all) {

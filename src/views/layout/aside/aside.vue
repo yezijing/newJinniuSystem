@@ -139,7 +139,7 @@ export default {
       border-bottom: 1px solid #1d1b1d;
       background-color: #141314 !important;
       &:hover {
-        color: #32aa9f !important;
+        color: #3eaf7c !important;
         background-color: #141314 !important;
       }
       i {
@@ -149,7 +149,7 @@ export default {
       }
     }
     .el-menu-item.is-active {
-      background-color: #32aa9f !important;
+      background-color: #3eaf7c !important;
       &:hover{color: #fff !important;}
     }
     .is-opened > .el-submenu__title > .el-icon-arrow-down {

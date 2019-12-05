@@ -1,29 +1,17 @@
 <template>
   <div class="mainbox">
-    <p class="navtitle"><span>用户管理</span></p>
+    <p class="navtitle">
+      <span>用户管理</span>
+    </p>
     <div class="toolbar">
       <el-form :inline="true" :model="filters" ref="filters" size="small">
-        <el-form-item label="登录名：" prop="logname">
+        <el-form-item label="登录名：" prop="logname" class="ww2">
           <el-input v-model="filters.logname" placeholder="请输入" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="组织机构：" prop="orgid">
-          <el-select
-            v-model="filters.orgid"
-            filterable
-            clearable
-            placeholder="全部"
-            @focus="getOrganDatas"
-            @change="selectChange"
-          >
-            <el-option
-              v-for="item in orangizes"
-              :key="item.value"
-              :label="item.name"
-              :value="item.id"
-            ></el-option>
-          </el-select>
+        <el-form-item label="姓名：" prop="name" class="ww2">
+          <el-input v-model="filters.name" placeholder="请输入" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="部门：" prop="deptId" class="ww2">
+        <el-form-item label="部门：" prop="deptId">
           <el-select
             v-model="filters.deptId"
             filterable
@@ -40,25 +28,6 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="部门领导：" prop="leaderName" class="ww2">
-          <el-input v-model="filters.leaderName" placeholder="请输入" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="用户状态：" prop="status" class="ww1">
-          <el-select
-            v-model="filters.status"
-            filterable
-            clearable
-            placeholder="全部"
-            @change="selectChange"
-          >
-            <el-option
-              v-for="item in states"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item>
           <el-button v-on:click="getDatas" type="primary">搜索</el-button>
           <el-button @click="resetForm('filters')">重置</el-button>
@@ -70,34 +39,29 @@
     </div>
     <div class="listcontent">
       <!--列表-->
-      <el-table border size="small" :data="usersData" highlight-current-row style="width: 100%;">
+      <el-table
+        border
+        size="small"
+        :data="usersData"
+        highlight-current-row
+        style="width: 100%;"
+        empty-text="当前无数据，请添加！"
+      >
         <el-table-column type="index" label="序号" align="center" width="60"></el-table-column>
         <el-table-column prop="name" label="姓名"></el-table-column>
         <el-table-column prop="logname" label="登录名"></el-table-column>
-        <el-table-column prop="orgname" label="组织机构"></el-table-column>
         <el-table-column prop="deptName" label="部门"></el-table-column>
-        <el-table-column prop="leaderName" label="部门领导"></el-table-column>
-        <el-table-column prop="job" label="职位"></el-table-column>
-        <el-table-column prop="phone" label="电话号码"></el-table-column>
-        <el-table-column prop="duty" label="岗位职责"></el-table-column>
+        <el-table-column prop="job" label="职务"></el-table-column>
+        <el-table-column prop="phone" label="联系方式"></el-table-column>
         <el-table-column label="操作">
           <template scope="scope">
+            <el-button size="small" @click="handleDetail(scope.row)">详情</el-button>
             <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
             <el-button size="small" @click="handleStatus(scope.row)" v-if="scope.row.status==1">停用</el-button>
             <el-button class="btn-red" size="small" @click="handleStatus(scope.row)" v-else>启用</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <!-- <el-pagination
-        :hide-on-single-page="isHide"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[10, 20, 30, 50]"
-        :page-size="pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="totals"
-      ></el-pagination> -->
     </div>
     <!-- 新增/编辑弹窗 -->
     <el-dialog :title="dtitle" :visible.sync="dataFormVisible" width="640px" v-dialogDrag>
@@ -121,25 +85,9 @@
           </el-form-item>
         </div>
         <el-form-item
-          label="组织机构："
-          prop="orgid"
-          :rules="[{ required: true, message: '请选择所属组织机构', trigger: 'change' }]"
-          class="select-block"
-        >
-          <el-select
-            v-model="userForm.orgid"
-            filterable
-            clearable
-            placeholder="请选择"
-            @change="selectGetOrgan"
-          >
-            <el-option v-for="item in orangizes" :key="item.id" :label="item.name" :value="item.id"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item
-          label="所属部门："
+          label="部门："
           prop="deptId"
-          :rules="[{ required: true, message: '请选择所属部门', trigger: 'change' }]"
+          :rules="[{ required: true, message: '请选择部门', trigger: 'change' }]"
           class="select-block"
         >
           <el-select
@@ -157,32 +105,36 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item
-          label="电话号码："
-          prop="phone"
-          :rules="[{ required: true, message: '请输入电话号码', trigger: 'change' }]"
-        >
-          <el-input v-model="userForm.phone"></el-input>
-        </el-form-item>
-        <el-form-item
-          label="职位："
-          prop="job"
-          class="select-block"
-          :rules="[{ required: true, message: '请输入职位', trigger: 'change' }]"
-        >
-          <el-select
-            v-model="userForm.job"
-            filterable
-            allow-create
-            placeholder="请选择或输入职位信息"
-            @change="addUserJob"
+        <div class="flexbox">
+          <el-form-item
+            label="职务："
+            prop="job"
+            class="select-block"
+            :rules="[{ required: true, message: '请输入职务', trigger: 'change' }]"
           >
-            <el-option v-for="item in jobs" :key="item.jobName" :label="item.jobName" :value="item.jobName"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="岗位职责：" prop="duty">
-          <el-input type="textarea" :autosize="{ minRows: 4}" v-model="userForm.duty"></el-input>
-        </el-form-item>
+            <el-select
+              v-model="userForm.job"
+              filterable
+              allow-create
+              placeholder="请选择或输入职务信息"
+              @change="addUserJob"
+            >
+              <el-option
+                v-for="item in jobs"
+                :key="item.jobName"
+                :label="item.jobName"
+                :value="item.jobName"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item
+            label="联系方式："
+            prop="phone"
+            :rules="[{ required: true, message: '请输入联系方式', trigger: 'change' }]"
+          >
+            <el-input v-model="userForm.phone"></el-input>
+          </el-form-item>
+        </div>
         <div class="tsbox" v-if="isEdit">
           <el-checkbox v-model="isLeader" :disabled="hasleader">是否为部门领导</el-checkbox>
         </div>
@@ -259,12 +211,10 @@ export default {
     selectChange() {
       this.$forceUpdate();
     },
-    addUserJob(){
+    addUserJob() {
       this.$forceUpdate();
-      let para = {jobName:this.userForm.job}
-      addJobData(para,res=>{
-        
-      })
+      let para = { jobName: this.userForm.job };
+      addJobData(para, res => {});
     },
     handleSizeChange(size) {
       this.pageSize = size;
@@ -297,7 +247,7 @@ export default {
       this.savaWord = "新增";
       this.dtitle = "新增用户";
       this.userForm = { orgid: 1 };
-       this.orgname = '四川联智科技责任有限公司';
+      this.orgname = "四川联智科技责任有限公司";
       this.isType = "add";
       this.dataFormVisible = true;
       this.isEdit = true;
@@ -323,6 +273,8 @@ export default {
         this.userForm = data.data.obj;
       });
     },
+    // 详情
+    handleDetail(row) {},
     // 停用启用
     handleStatus(row) {
       let para = { id: row.id, status: row.status };
@@ -371,10 +323,10 @@ export default {
       });
       this.orgname = obj.name;
       // 选择机构后获取对应部门列表
-      let para = {orgId:oid}
-      getDeptByOrgData(para,res=>{
+      let para = { orgId: oid };
+      getDeptByOrgData(para, res => {
         this.departments = res.data.obj;
-      })
+      });
     },
     // 新增提交
     addSubmit() {
@@ -422,10 +374,10 @@ export default {
     },
     // 部门列表
     getAllDepts() {
-      let para = {orgId:1}
-      getDeptByOrgData(para,res=>{
+      let para = { orgId: 1 };
+      getDeptByOrgData(para, res => {
         this.departments = res.data.obj;
-      })
+      });
       // allDeptlist("", data => {
       //   this.departments = data.data.obj.datas;
       // });

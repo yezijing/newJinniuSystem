@@ -6,61 +6,29 @@
       overflow: hidden;
     }
     .title {
-      color: #1890ff;
+      color: #3eaf7c;
       font-size: 14px;
       cursor: pointer;
     }
-    th {
-      background: #1890ff;
-      color: #fff;
-      font-weight: normal;
-      font-size: 13px;
-    }
-    th.is-leaf {
-      border-color: #ddd;
-    }
-    td {
-      border-right: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;
-      .cell {
-        word-wrap: break-word;
-        white-space: pre-line;
-        .el-button {
-          font-size: 13px;
-          border: none;
-          background: transparent;
-          color: #1890ff;
-          padding: 5px 2px;
-        }
-        .btn-red{color: #f00;}
-      }
+    th{
+      background-color: #f2f2f2;
+      border-right: 1px solid #e6e6e6;
     }
 }
-.el-table--border,
-.el-table--group {
-  border: 1px solid #ddd;
-}
+
 #elmain {
     margin: 15px;
     padding: 15px;
     background: #fff;
+    box-shadow: 0px 5px 5px 0px rgba(0,0,0,.1);
     .navtitle {
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #eee;
       span{
         position: relative;
         padding-bottom: 10px;
-        color: #409EFF;
+        color: #333;
         font-size: 14px;
         display: inline-block;
-        &::after{
-          content: "";
-          background: #409EFF;
-          height: 1px;
-          width: 100%;
-          position: absolute;
-          bottom: 0;
-          left: 0;
-        }
       }
     }
 }
@@ -68,17 +36,16 @@
 .el-dialog__header {
   background: #f2f2f2;
   padding: 6px 15px;
-  // text-align: center;
   border-bottom: 1px solid #ccc;
   .el-dialog__title {
     color: #333;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: bold;
-    line-height: 34px;
+    line-height: 30px;
     font-family: "Microsoft YaHei";
   }
   .el-dialog__headerbtn {
-    top: 14px;
+    top: 12px;
     right: 15px;
     .el-dialog__close {
       color: #333;
@@ -147,11 +114,11 @@
     padding: 0 5px;
     border-radius: 3px;
     &:hover{
-      color: #1890ff;
+      color: #3eaf7c;
     }
   }
   .on{
-    color: #1890ff;
+    color: #3eaf7c;
     background-color: #eee;
   }
   a+a{
@@ -168,7 +135,7 @@
     position: relative;
     display: inline-block;
     .icon {
-      color: #1890ff;
+      color: #3eaf7c;
       font-size: 24px;
       display: inline-block;
       height: 36px;
@@ -205,9 +172,49 @@
 .select-table {
   .el-input__inner{
     border:none;
-    color: #1890ff;
+    color: #3eaf7c;
     padding: 0;
   }
   .el-input__suffix{display: none;}
   .el-input--suffix .el-input__inner{padding-right: 0;}
 }
+.el-select .el-input.is-focus .el-input__inner{border-color: #32aa9f;}
+.el-select .el-input__inner:focus {
+  border-color: #32aa9f
+}
+.el-button--primary{
+    background-color: #32aa9f;
+    border-color: #32aa9f;
+}
+.el-input.is-active .el-input__inner,.el-input__inner:focus {
+  border-color: #32aa9f;
+}
+.el-button:focus,.el-button:hover {
+  color: #32aa9f;
+}
+.el-button:active {
+  color: #32aa9f;
+  border-color: #32aa9f;
+}
+.el-button.is-plain:focus,.el-button.is-plain:hover {
+  border-color: #32aa9f;
+  color: #32aa9f
+}
+.el-button.is-active,.el-button.is-plain:active {
+  color: #32aa9f;
+  border-color: #32aa9f
+}
+.el-button--primary:focus,.el-button--primary:hover {
+  background: #32aa9f;
+  border-color: #32aa9f;
+  color: #FFF;
+  opacity: .8;
+}
+.el-textarea__inner:focus {
+  border-color: #32aa9f;
+}
+.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content{background-color: #e1e7ef;}
+.el-tree-node__label{color: #333;}
+.el-tree-node__expand-icon{color: #999;}
+.el-select-dropdown__item.selected{color: #32aa9f;}
+.el-tree-node__content{line-height: 26px;}

@@ -9,7 +9,7 @@ import HomeMain from '@/views/index/mainIndex'
 const NotFound = () => import('@/page404')
 const organManagement = () => import('@/views/setting/organmanagement')
 const userManagement = () => import('@/views/setting/usermanagement')
-const department = () => import('@/views/setting/department')
+const systemLog = () => import('@/views/setting/systemlog')
 const roleManagement = () => import('@/views/setting/rolemanagement')
 const oneMenu = () => import('@/views/manymenu/onemenu')
 const twoMenu = () => import('@/views/manymenu/twomenu')
@@ -73,13 +73,6 @@ let addRouter = [
                 children: []
             },
             {
-                path: '/department',
-                name: '部门管理',
-                component: department,
-                alias: 'departmentmanagement',
-                children: []
-            },
-            {
                 path: '/usermanagement',
                 name: '用户管理',
                 component: userManagement,
@@ -91,6 +84,13 @@ let addRouter = [
                 name: '权限管理',
                 component: roleManagement,
                 alias: 'role',
+                children: []
+            },
+            {
+                path: '/systemlog',
+                name: '系统日志',
+                component: systemLog,
+                alias: 'xtrz',
                 children: []
             }
         ]
@@ -170,13 +170,6 @@ let allAddRouter = [
                 children: []
             },
             {
-                path: '/department',
-                name: '部门管理',
-                component: department,
-                alias: 'departmentmanagement',
-                children: []
-            },
-            {
                 path: '/usermanagement',
                 name: '用户管理',
                 component: userManagement,
@@ -188,6 +181,13 @@ let allAddRouter = [
                 name: '权限管理',
                 component: roleManagement,
                 alias: 'role',
+                children: []
+            },
+            {
+                path: '/systemlog',
+                name: '系统日志',
+                component: systemLog,
+                alias: 'xtrz',
                 children: []
             }
         ]

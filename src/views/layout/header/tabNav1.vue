@@ -1,45 +1,35 @@
 <template>
   <div>
     <div class="tabnavBox">
-      <div class="tabswiper">
-        <ul class="swiper-wrapper">
-          <li
-            v-for="(item, index) in $store.getters.tabnavBox"
-            @contextmenu.prevent="openMenu(item,$event,index)"
-            :key="item.title"
-            class="tabnav swiper-slide"
-            :class="{ active: $route.path === item.path }"
-          >
-            <router-link :to="item.path">{{ item.title }}</router-link>
-            <i @click="removeTab(item)" class="el-icon-close" v-if="index !== 0"></i>
-          </li>
-        </ul>
-      </div>
-      <div class="tab-prev">
-        <i class="el-icon-arrow-left"></i>
-      </div>
-      <div class="tab-next">
-        <i class="el-icon-arrow-right"></i>
-      </div>
-      <ul
-        v-show="this.rightMenuShow"
-        :style="{left:this.left+'px',top:this.top+'px'}"
-        class="menuBox"
-      >
-        <li @click="removeTab($store.getters.rightNav)">
-          <i class="fa fa-remove"></i>
-          {{ $t('rightMenu.close') }}
+      <transition-group name="list" tag="ul">
+        <li
+          v-for="(item, index) in $store.getters.tabnavBox"
+          @contextmenu.prevent="openMenu(item,$event,index)"
+          :key="item.title"
+          class="tabnav"
+          :class="{ active: $route.path === item.path }"
+        >
+          <router-link :to="item.path">{{ item.title }}</router-link>
+          <i @click="removeTab(item)" class="el-icon-close" v-if="index !== 0"></i>
         </li>
-        <li @click="removeOtherTab($store.getters.rightNav)">{{ $t('rightMenu.closeOther') }}</li>
-        <li @click="removeAllTab">{{ $t('rightMenu.closeAll') }}</li>
-      </ul>
+      </transition-group>
     </div>
+    <!-- <ul
+      v-show="this.rightMenuShow"
+      :style="{left:this.left+'px',top:this.top+'px'}"
+      class="menuBox"
+    >
+      <li @click="removeTab($store.getters.rightNav)">
+        <i class="fa fa-remove"></i>
+        {{ $t('rightMenu.close') }}
+      </li>
+      <li @click="removeOtherTab($store.getters.rightNav)">{{ $t('rightMenu.closeOther') }}</li>
+      <li @click="removeAllTab">{{ $t('rightMenu.closeAll') }}</li>
+    </ul> -->
   </div>
 </template>
 
 <script>
-import "swiper/css/swiper.css";
-import Swiper from "swiper";
 export default {
   name: "tabNav",
   data() {
@@ -54,6 +44,9 @@ export default {
       if (index === 0) {
         return false;
       }
+      this.rightMenuShow = true;
+      this.left = e.clientX + 10;
+      this.top = e.clientY;
       this.$store.dispatch("openMenu", item);
     },
     removeTab(tabItem) {
@@ -73,19 +66,19 @@ export default {
       });
     }
   },
-  mounted() {
-    let tabswiper = new Swiper(".tabswiper", {
-      navigation: {
-        nextEl: ".tab-next",
-        prevEl: ".tab-prev"
-      },
-      slidesPerView: "auto",
-      observer:true,
-      observeParents:true,
-      slidesPerGroup : 2,
-    });
-  },
-  watch: {}
+  watch: {
+    rightMenuShow(value) {
+      if (value) {
+        document.body.addEventListener("click", () => {
+          this.rightMenuShow = false;
+        });
+      } else {
+        document.body.removeEventListener("click", () => {
+          this.rightMenuShow = false;
+        });
+      }
+    }
+  }
 };
 </script>
 <style>
@@ -93,14 +86,17 @@ export default {
   display: inline-block;
   transition: all 0.5s;
 }
+
 .list-enter,
 .list-leave-to {
   opacity: 0;
   transform: translateY(30px);
 }
+
 .list-enter-active {
   transition: all 0.5s;
 }
+
 .list-leave-active {
   position: absolute;
   transition: all 1s;
@@ -117,10 +113,9 @@ $leftright: ($left, $right);
     #{$side}-#{$prop}: $value;
   }
 }
+
 .tabnavBox {
   width: 100%;
-  position: relative;
-  padding: 0 32px;
   overflow: hidden;
   border-top: 1px solid #f6f6f6;
   border-bottom: 1px solid #d8dce5;
@@ -128,62 +123,19 @@ $leftright: ($left, $right);
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12),
     0 0 3px 0 rgba(0, 0, 0, 0.04);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
-  .tabswiper {
-    overflow: hidden;
-    height: 36px;
-    width: 100%;
-    position: relative;
-    z-index: 9;
-  }
-  .tab-next {
-    position: absolute;
-    right: 0;
-    top: 0;
-    line-height: 36px;
-    height: 36px;
-    width: 30px;
-    z-index: 12;
-    cursor: pointer;
-    text-align: center;
-    i {
-      color: #666;
-      font-size: 18px;
-    }
-    &:focus {
-      border: none;
-      outline: none;
-    }
-  }
-  .tab-prev {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 12;
-    cursor: pointer;
-    line-height: 36px;
-    height: 36px;
-    width: 30px;
-    text-align: center;
-    i {
-      color: #666;
-      font-size: 18px;
-    }
-    &:focus {
-      border: none;
-      outline: none;
-    }
-  }
   ul {
-    height: 36px;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 20px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
     li {
       height: 36px;
       line-height: 36px;
       cursor: pointer;
-      border-right: 1px solid #f6f6f6;
+      margin-right: 5px;
       overflow: hidden;
       position: relative;
-      display: inline-block;
-      width: auto;
       &:not(:first-child) {
         padding-right: 10px;
         min-width: 80px;

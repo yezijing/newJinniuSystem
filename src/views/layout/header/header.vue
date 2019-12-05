@@ -6,7 +6,16 @@
           <i v-if="$store.getters.logoShow" class="fa fa-indent"></i>
           <i v-else class="fa fa-outdent"></i>
         </span>
-        <a class="refresh" @click="reloadPage" href="javascript:;"><i class="el-icon-refresh-right"></i></a>
+        <a class="refresh" @click="reloadPage" href="javascript:;">
+          <i class="el-icon-refresh-right"></i>
+        </a>
+        <a class="tips" href="javascript:;">
+          <i class="el-icon-bell"></i>
+          <b>5</b>
+        </a>
+        <a class="notice" href="javascript:;">
+          <i class="el-icon-date"></i>
+        </a>
       </p>
       <ul class="personal">
         <li class="fullScreen" @click="fullScreen">
@@ -15,23 +24,11 @@
           </el-tooltip>
         </li>
         <li>
-          <el-badge :is-dot="isDot" class="item">
-            <el-button>消息</el-button>
-          </el-badge>
-        </li>
-        <li>
-          <el-dropdown @command="handleCommand" trigger="click">
-            <span class="el-dropdown-link">
-              欢迎回来！
-              admin
-              <i class="el-icon-arrow-down el-icon--right"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="a">{{ $t('userDropdownMenu.basicInfor') }}</el-dropdown-item>
-              <el-dropdown-item command="b">{{ $t('userDropdownMenu.changePassword') }}</el-dropdown-item>
-              <el-dropdown-item command="logout" divided>{{ $t('userDropdownMenu.logout') }}</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <span class="el-dropdown-link">
+            欢迎回来！
+            admin
+          </span>
+          <a class="signout" @click="signOut" href="javascript:;">[退出]</a>
         </li>
       </ul>
     </el-header>
@@ -50,18 +47,19 @@ export default {
     return {
       logoimg: "./static/images/logo.png",
       isfullScreen: true,
-      isDot: true
     };
   },
   created() {},
   methods: {
     // 刷新页面
-    reloadPage(){
+    reloadPage() {
       location.reload();
     },
+    // 收缩菜单栏
     collapse() {
       this.$store.dispatch("collapse");
     },
+    // 全屏
     fullScreen() {
       if (this.isfullScreen) {
         var docElm = document.documentElement;
@@ -88,20 +86,15 @@ export default {
         this.isfullScreen = true;
       }
     },
-    handleCommand(command) {
-      if (command === "logout") {
-        // userLogout("", data => {
+    // 退出
+    signOut() {
+      // userLogout("", data => {
         //   sessionStorage.removeItem("token");
         //   location.reload();
         // });
-        sessionStorage.removeItem("token");
-        location.reload();
-      }
-      if (command === "a") {
-      }
-      if (command === "b") {
-      }
-    }
+      sessionStorage.removeItem("token");
+      location.reload();
+    },
   }
 };
 </script>
@@ -132,17 +125,49 @@ export default {
     .htitle {
       color: #333;
       font-size: 20px;
-      .openbtn{
+      .openbtn {
         display: inline-block;
         cursor: pointer;
+        font-size: 16px;
+        i {
+          font-weight: 100;
+        }
       }
-      .refresh{
+      .refresh {
         color: #333;
+        font-size: 16px;
         display: inline-block;
         margin-left: 20px;
-        i{
-          font-weight: bold;
+        i {
+          font-weight: normal;
         }
+      }
+      .tips {
+        color: #666;
+        font-size: 16px;
+        display: inline-block;
+        margin-left: 20px;
+        position: relative;
+        b {
+          color: #fff;
+          font-size: 12px;
+          background-color: #f10404;
+          width: 16px;
+          height: 16px;
+          line-height: 16px;
+          text-align: center;
+          font-weight: normal;
+          border-radius: 50%;
+          position: absolute;
+          right: -7px;
+          top: 13px;
+        }
+      }
+      .notice {
+        display: inline-block;
+        color: #666;
+        font-size: 16px;
+        margin-left: 20px;
       }
     }
     .personal {
@@ -151,15 +176,19 @@ export default {
       li {
         margin: 0 13px;
         font-size: 14px;
+        .signout {
+          color: #666;
+          font-size: 14px;
+          display: inline-block;
+          margin-left: 10px;
+        }
       }
       .fullScreen {
         cursor: pointer;
         .fa-lg {
           color: #333;
+          font-size: 16px;
         }
-      }
-      .el-dropdown-link {
-        cursor: pointer;
       }
     }
   }

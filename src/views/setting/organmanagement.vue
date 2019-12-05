@@ -1,173 +1,221 @@
 <template>
   <div class="mainbox">
-    <p class="navtitle"><span>组织机构</span></p>
-    <div class="toolbar">
-      <el-button type="primary" size="small" @click="handleAdd">新增</el-button>
-    </div>
+    <p class="navtitle">
+      <span>组织机构</span>
+    </p>
     <div class="listcontent">
-      <!--列表-->
-      <el-table border size="small" :data="organizeData" highlight-current-row style="width: 100%;">
-        <el-table-column type="index" label="序号" align="center" width="100"></el-table-column>
-        <el-table-column prop="name" label="机构名称"></el-table-column>
-        <el-table-column prop="remark" label="备注" width></el-table-column>
-        <el-table-column label="操作">
-          <template scope="scope">
-            <el-button size="small" @click="handleEdit(scope.row)">编辑</el-button>
-            <el-button size="small" @click="handleDelete(scope.row, scope.row.id)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
-    <!-- 新增/编辑弹窗 -->
-    <el-dialog :title="dtitle" :visible.sync="dataFormVisible" width="500px" v-dialogDrag>
-      <el-form size="small" :model="organForm" label-width="100px" ref="organForm">
-        <el-form-item
-          label="机构名称："
-          prop="name"
-          :rules="[{ required: true, message: '请输入机构名称', trigger: 'change' }]"
-        >
-          <el-input v-model="organForm.name" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="备注：" prop="remark">
-          <el-input type="textarea" :autosize="{ minRows: 5}" v-model="organForm.remark"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer">
-        <el-button size="small" @click="dataFormVisible=false">取消</el-button>
-        <el-button size="small" type="primary" @click="submitForm('organForm')">{{savaWord}}</el-button>
+      <div class="organwrap">
+        <div class="left">
+          <div class="btns">
+            <el-button type="primary" size="small">创建主分类</el-button>
+            <el-button type="primary" size="small">创建子类</el-button>
+          </div>
+          <div class="treelist">
+            <el-tree
+              :data="data"
+              :props="defaultProps"
+              highlight-current
+              @node-click="handleNodeClick"
+              accordion
+              :render-content="renderContent"
+            ></el-tree>
+          </div>
+        </div>
+        <div class="right">
+          <div class="frombox">
+            <el-form size="medium" :model="dataForm" ref="dataForm" label-width="100px">
+              <el-form-item label="所属分类" prop="sort">
+                <el-select v-model="dataForm.sort" placeholder="选择分类">
+                  <el-option
+                    v-for="item in sortlist"
+                    :key="item.label"
+                    :label="item.label"
+                    :value="item.label"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="名称" prop="name">
+                <el-input v-model="dataForm.name" autocomplete="off" placeholder="请输入名称"></el-input>
+              </el-form-item>
+              <el-form-item label="部门电话" prop="phone">
+                <el-input v-model="dataForm.phone" autocomplete="off" placeholder="请输入部门电话"></el-input>
+              </el-form-item>
+              <el-form-item label="备注" prop="remark">
+                <el-input
+                  type="textarea"
+                  :rows="5"
+                  v-model="dataForm.remark"
+                  placeholder="备注"
+                  autocomplete="off"
+                ></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+                <el-button @click="resetForm('dataForm')">重置</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
       </div>
-    </el-dialog>
+    </div>
   </div>
 </template>
 
 <script>
-import {
-  allOrglist,
-  addOrgan,
-  editOrgan,
-  deleteOrgan
-} from "../../api/settingApi";
 export default {
   name: "organ",
   components: {},
   data() {
     return {
-      organizeData: [],
-      // 弹窗标题
-      dtitle: "",
-      // 弹窗是否显示
-      dataFormVisible: false,
-      // 表单
-      organForm: {},
-      // 保存、确定
-      savaWord: "",
-      isType: "",
-      // 当前组织id
-      orgid: 0
+      dataForm: { sort: "根分类" },
+      // 所属分类
+      sortlist: [
+        {
+          value: 0,
+          label: "根分类"
+        },
+        {
+          value: 1,
+          label: "金牛区"
+        },
+        {
+          value: 2,
+          label: "武侯区"
+        },
+        {
+          value: 3,
+          label: "锦江区"
+        }
+      ],
+      data: [
+        {
+          label: "金牛区",
+          icon: "el-icon-s-flag",
+          children: [
+            {
+              label: "街道办",
+              children: [
+                {
+                  label: "荷花池街道办"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          label: "武侯区",
+          icon: "el-icon-s-flag",
+          children: [
+            {
+              label: "行政部门",
+              children: [
+                {
+                  label: "行政纪要"
+                }
+              ]
+            },
+            {
+              label: "工程部",
+              children: [
+                {
+                  label: "街区工程"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          label: "锦江区",
+          icon: "el-icon-s-flag",
+          children: [
+            {
+              label: "公安局",
+              children: [
+                {
+                  label: "三级 3-1-1"
+                }
+              ]
+            },
+            {
+              label: "市政府办公厅",
+              children: [
+                {
+                  label: "市城建委"
+                },
+                {
+                  label: "市规划局"
+                },
+                {
+                  label: "市房管局"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      defaultProps: {
+        children: "children",
+        label: "label",
+        icon: "el-icon-s-flag"
+      }
     };
   },
-  created() {
-    this.getAllDatas();
-  },
+  created() {},
   methods: {
-    // 新增
-    handleAdd() {
-      this.savaWord = "新增";
-      this.dtitle = "新增组织机构";
-      this.dataFormVisible = true;
-      this.organForm = {};
-      this.isType = "add";
+    handleNodeClick(data) {
+      this.dataForm.sort = data.label;
     },
-    // 编辑
-    handleEdit(row) {
-      this.savaWord = "保存";
-      this.dtitle = "编辑组织机构";
-      this.dataFormVisible = true;
-      this.organForm = Object.assign({}, row);
-      this.isType = "edit";
-      this.orgid = row.id;
+    renderContent(h, { node, data, store }) {
+      return (
+        <span>
+          <i class={data.icon} style="color:#999;"></i>
+          <span> {node.label}</span>
+        </span>
+      );
     },
-    // 删除
-    handleDelete(row, id) {
-      this.$confirm(
-        '<span style="color:#f00;">该操作将删除此条组织机构</span>，确定删除吗?',
-        "提示",
-        { type: "warning", dangerouslyUseHTMLString: true }
-      )
-        .then(() => {
-          let para = { id: id };
-          deleteOrgan(para, data => {
-            if (data.data.code == 0) {
-              this.$message({
-                message: "删除成功",
-                type: "success"
-              });
-              this.getAllDatas();
-            } else {
-              this.$message({
-                message: "删除失败",
-                type: "error"
-              });
-            }
-          });
-        })
-        .catch(() => {
-          this.$message({
-            message: "取消删除",
-            type: "info"
-          });
-        });
-    },
-    // 表单保存
-    submitForm() {
-      this.$refs.organForm.validate(valid => {
-        if (valid) {
-          if (this.isType == "add") {
-            this.addSubmit();
-          } else {
-            this.editSubmit();
-          }
-        } else {
-          return false;
-        }
-      });
-    },
-    // 新增提交
-    addSubmit() {
-      let para = Object.assign({}, this.organForm);
-      addOrgan(para, data => {
-        this.dataFormVisible = false;
-        this.$message({
-          message: "新增成功",
-          type: "success"
-        });
-        this.getAllDatas();
-      });
-    },
-    // 编辑提交
-    editSubmit() {
-      let para = Object.assign({}, this.organForm);
-      para.id = this.orgid;
-      let { createtime, updatetime, ...others } = para;
-      para = others;
-      editOrgan(para, data => {
-        this.dataFormVisible = false;
-        this.$message({
-          message: "编辑成功",
-          type: "success"
-        });
-        this.getAllDatas();
-      });
-    },
-    // 获取数据列表
-    getAllDatas() {
-      allOrglist("", data => {
-        this.organizeData = data.data.obj;
-      });
+    // 重置表单
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     }
   }
 };
 </script>
 
 <style lang="scss">
+.organwrap {
+  margin-top: 20px;
+  display: flex;
+  align-items: stretch;
+  .left {
+    border: 1px solid #f2f2f2;
+    padding: 30px;
+    width: 500px;
+    .btns {
+      margin-bottom: 20px;
+    }
+  }
+  .right {
+    flex: 1;
+    .frombox {
+      padding: 0 40px;
+      max-width: 700px;
+      .el-input__inner {
+        width: 300px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 1480px) {
+  .organwrap {
+    .left {
+      width: 400px;
+      padding: 20px;
+    }
+    .right {
+      .frombox {
+        padding: 0 30px;
+      }
+    }
+  }
+}
 </style>

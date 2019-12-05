@@ -1,7 +1,7 @@
 <template>
-  <div id="login" :style="loginBg">
+  <div id="login" :style="backgroundDiv">
     <div class="loginbox">
-      <p class="title">金牛目督办平台</p>
+      <p class="title" :style="btnbackgroundDiv">联智ESM管理系统</p>
       <div class="content">
         <el-form :model="loginForm" status-icon label-width="100px" class="demo-ruleForm">
           <el-form-item label="用户名：" prop="logname">
@@ -20,7 +20,7 @@
               placeholder="请输入登录密码"
             ></el-input>
           </el-form-item>
-          <!-- <el-form-item label="验证码：" prop="yzm" class="codebox">
+          <el-form-item label="验证码：" prop="yzm" class="codebox">
             <el-input
               type="text"
               v-model="loginForm.yzm"
@@ -29,7 +29,7 @@
               @keyup.enter.native="submitForm"
             ></el-input>
             <input type="button" @click="createCode" class="verification" v-model="checkCode" />
-          </el-form-item>-->
+          </el-form-item>
           <el-form-item>
             <el-button class="subBtn" @click="submitForm">登录</el-button>
           </el-form-item>
@@ -44,15 +44,16 @@ import md5 from "md5";
 export default {
   data() {
     return {
-      loginBg: {
+      backgroundDiv: {
         backgroundImage: "url(" + require("../../assets/loginbg.png") + ")"
       },
-      btnBg: {
+      btnbackgroundDiv: {
         backgroundImage: "url(" + require("../../assets/btnbg.png") + ")"
       },
       loginForm: {
         username: "",
-        password: ""
+        password: "",
+        yzm: ""
       },
       checkCode: "",
       code: "",
@@ -64,24 +65,74 @@ export default {
       let {
         loginForm: { logname, password, yzm }
       } = this;
-      if (logname === "" || password === "") {
+      if (logname === "" || password === "" || yzm === "") {
         this.$message({
           showClose: true,
-          message: "账号/密码不能为空",
+          message: "账号/密码/验证码不能为空",
           type: "error"
         });
         return false;
       } else {
-        let upara = { logname: logname, password: md5(password) };
-        this.$store.dispatch("setToken", logname).then(() => {
-          this.$message({
-            message: "登录成功！",
-            type: "success"
+        if (this.loginForm.yzm.toUpperCase() == this.checkCode) {
+          let upara = { logname: logname, password: md5(password) };
+          userLogin(upara, ({ data: { code, msg, obj } }) => {
+            let { updatetime } = obj;
+            this.$store.dispatch("setUserData", JSON.stringify(obj));
+            this.$store.dispatch("setToken", logname).then(() => {
+              this.$message({
+                message: "登录成功！",
+                type: "success"
+              });
+              setTimeout(() => {
+                this.$router.push({ path: "/" });
+              }, 1000);
+            });
           });
-          setTimeout(() => {
-            this.$router.push({ path: "/" });
-          }, 1000);
+        } else {
+          this.$message({
+            showClose: true,
+            message: "验证码错误",
+            type: "error"
+          });
+          return false;
+        }
+      }
+    },
+    submitFormTest() {
+      let that = this;
+      if (
+        this.loginForm.username === "" ||
+        this.loginForm.password === "" ||
+        this.loginForm.yzm === ""
+      ) {
+        this.$message({
+          showClose: true,
+          message: "账号/密码/验证码不能为空",
+          type: "error"
         });
+        return false;
+      } else {
+        if (this.loginForm.yzm.toUpperCase() == this.checkCode) {
+          that.$store
+            .dispatch("setToken", that.loginForm.username)
+            .then(() => {
+              that.$router.push({ path: "/" });
+            })
+            .catch(res => {
+              that.$message({
+                showClose: true,
+                message: res,
+                type: "error"
+              });
+            });
+        } else {
+          this.$message({
+            showClose: true,
+            message: "验证码错误",
+            type: "error"
+          });
+          return false;
+        }
       }
     },
     // 生成验证码
@@ -161,22 +212,28 @@ export default {
     left: 50%;
     margin-left: -300px;
     border-radius: 10px;
-    padding: 50px;
+    padding: 70px 50px 50px;
     .title {
+      position: absolute;
+      height: 68px;
+      padding-left: 28px;
+      padding-top: 18px;
+      top: -28px;
+      left: 0;
+      width: 100%;
       text-align: center;
-      color: #3eaf7c;
-      font-size: 24px;
+      color: #fff;
+      background-repeat: no-repeat;
+      background-position: center;
+      font-size: 16px;
       letter-spacing: 1px;
-      font-weight: bold;
-      margin-bottom: 40px;
     }
     .subBtn {
-      width: 100%;
+      width: 274px;
       background-color: #f36306;
       border-color: #f36306;
       transition: all 0.3s ease;
       color: #fff;
-      margin-top: 30px;
     }
     .subBtn:hover {
       background-color: #ec6610;
