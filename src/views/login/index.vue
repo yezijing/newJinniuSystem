@@ -18,6 +18,7 @@
               v-model="loginForm.password"
               auto-complete="off"
               placeholder="请输入登录密码"
+              @keyup.enter.native="submitForm"
             ></el-input>
           </el-form-item>
           <!-- <el-form-item label="验证码：" prop="yzm" class="codebox">

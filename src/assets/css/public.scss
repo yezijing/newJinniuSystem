@@ -12,15 +12,27 @@
     }
     th{
       background-color: #f2f2f2;
-      border-right: 1px solid #e6e6e6;
+      // border-right: 1px solid #e6e6e6;
+      font-weight: normal;
+      color: #333;
+    }
+    td{
+      padding: 4px 0;
+      .mark {
+        width: 6px;
+        height: 6px;
+        background: #409EFF;
+        border-radius: 50%;
+        display: inline-block;
+        vertical-align: middle;
+      }
     }
 }
 
 #elmain {
     margin: 15px;
-    padding: 15px;
-    background: #fff;
-    box-shadow: 0px 5px 5px 0px rgba(0,0,0,.1);
+    padding: 0;
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,.1);
     .navtitle {
       border-bottom: 1px solid #eee;
       span{
@@ -30,6 +42,12 @@
         font-size: 14px;
         display: inline-block;
       }
+    }
+    .mainbox{
+      padding: 15px;
+      min-height: 100%;
+      background-color: #fff;
+      overflow: hidden;
     }
 }
 

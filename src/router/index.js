@@ -16,8 +16,7 @@ const twoMenu = () => import('@/views/manymenu/twomenu')
 const threeMenu = () => import('@/views/manymenu/threemenu')
 
 Vue.use(Router)
-let defaultRouter = [
-    {
+let defaultRouter = [{
         path: '/',
         redirect: '/index',
         hidden: true,
