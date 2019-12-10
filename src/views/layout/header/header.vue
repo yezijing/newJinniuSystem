@@ -46,7 +46,7 @@ export default {
   data() {
     return {
       logoimg: "./static/images/logo.png",
-      isfullScreen: true,
+      isfullScreen: true
     };
   },
   created() {},
@@ -89,12 +89,12 @@ export default {
     // 退出
     signOut() {
       // userLogout("", data => {
-        //   sessionStorage.removeItem("token");
-        //   location.reload();
-        // });
+      //   sessionStorage.removeItem("token");
+      //   location.reload();
+      // });
       sessionStorage.removeItem("token");
       location.reload();
-    },
+    }
   }
 };
 </script>

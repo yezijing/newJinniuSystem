@@ -7,8 +7,8 @@
       <div class="organwrap">
         <div class="left">
           <div class="btns">
-            <el-button type="primary" size="small">创建主分类</el-button>
-            <el-button type="primary" size="small">创建子类</el-button>
+            <el-button type="primary" size="mini">创建主分类</el-button>
+            <el-button type="primary" size="mini">创建子类</el-button>
           </div>
           <div class="treelist">
             <el-tree
@@ -50,8 +50,8 @@
                 ></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                <el-button @click="resetForm('dataForm')">重置</el-button>
+                <el-button size="mini" type="primary" @click="submitForm('ruleForm')">提交</el-button>
+                <el-button size="mini" @click="resetForm('dataForm')">重置</el-button>
               </el-form-item>
             </el-form>
           </div>

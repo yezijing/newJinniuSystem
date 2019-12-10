@@ -17,6 +17,7 @@ export default {
   },
   mounted: function() {
     this.drawCharts();
+    this.selfAdaption();
   },
   created() {},
   watch: {
@@ -25,6 +26,16 @@ export default {
     // }
   },
   methods: {
+    // echart自适应
+    selfAdaption() {
+      const that = this;
+      setTimeout(() => {
+        window.onresize = function() {
+          that.chart = echarts.init(document.getElementById("statecharts"));
+          that.chart.resize();
+        };
+      }, 10);
+    },
     stateCharts() {
       let myChart = echarts.init(document.getElementById("statecharts"));
       myChart.setOption({
@@ -47,12 +58,8 @@ export default {
             color: "#333",
             fontSize: 12
           },
-          data: [
-            "待审核",
-            "审核通过",
-            "审核未通过",
-          ]
-        }, 
+          data: ["待审核", "审核通过", "审核未通过"]
+        },
         calculable: true,
         color: ["#eaa28b", "#409EFF", "#f56c6c"], //自己设置扇形图颜色
         series: [
@@ -61,7 +68,7 @@ export default {
             type: "pie", // 图表类型
             radius: [0, 100], // 图表内外半径大小
             center: ["50%", "50%"], // 图表位置
-            selectedMode: 'single',
+            selectedMode: "single",
             selectedOffset: 30,
             clockwise: true,
             label: {

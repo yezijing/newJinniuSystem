@@ -14,28 +14,29 @@ const roleManagement = () => import('@/views/setting/rolemanagement')
 const oneMenu = () => import('@/views/manymenu/onemenu')
 const twoMenu = () => import('@/views/manymenu/twomenu')
 const threeMenu = () => import('@/views/manymenu/threemenu')
+const keyProject = () => import('@/views/project/keyProject')
 
 Vue.use(Router)
 let defaultRouter = [{
-        path: '/',
-        redirect: '/index',
-        hidden: true,
-        children: []
-    },
-    {
-        path: '/login',
-        component: Login,
-        name: '',
-        hidden: true,
-        children: []
-    },
-    {
-        path: '/404',
-        component: NotFound,
-        name: '404',
-        hidden: true,
-        children: []
-    }
+    path: '/',
+    redirect: '/index',
+    hidden: true,
+    children: []
+},
+{
+    path: '/login',
+    component: Login,
+    name: '',
+    hidden: true,
+    children: []
+},
+{
+    path: '/404',
+    component: NotFound,
+    name: '404',
+    hidden: true,
+    children: []
+}
 ]
 
 let addRouter = [
@@ -90,6 +91,24 @@ let addRouter = [
                 name: '系统日志',
                 component: systemLog,
                 alias: 'xtrz',
+                children: []
+            }
+        ]
+    },
+    {
+        path: '/keyProject',
+        iconCls: 'fa fa-cubes',
+        name: '重点项目',
+        component: Layout,
+        alias: 'zdxmmain',
+        alone: true,
+        children: [
+            {
+                path: '/keyProject',
+                iconCls: 'fa fa-cubes',
+                name: '重点项目',
+                component: keyProject,
+                alias: 'zdxm',
                 children: []
             }
         ]
@@ -187,6 +206,24 @@ let allAddRouter = [
                 name: '系统日志',
                 component: systemLog,
                 alias: 'xtrz',
+                children: []
+            }
+        ]
+    },
+    {
+        path: '/keyProject',
+        iconCls: 'fa fa-cubes',
+        name: '重点项目',
+        component: Layout,
+        alias: 'zdxmmain',
+        alone: true,
+        children: [
+            {
+                path: '/keyProject',
+                iconCls: 'fa fa-cubes',
+                name: '重点项目',
+                component: keyProject,
+                alias: 'zdxm',
                 children: []
             }
         ]
